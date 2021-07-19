@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/vuetify@1.x/dist/vuetify.min.css" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+  <style>
+    .done {
+      text-decoration: line-through;
+    }
+
+    [v-cloak] {
+      display: none;
+    }
+  </style>
+  <title>List of countries</title>
+</head>
+
+<body>
+  <div id="app" v-cloak>
+    <v-app :dark="isDark">
+      <v-toolbar color="blue darken-4" dark>
+        <v-toolbar-title class="headline">List of countries</v-toolbar-title>
+
+        <v-spacer></v-spacer>
+
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
+            <v-btn icon @click="show = !show" v-on="on">
+              <v-icon v-model="isDark" @click="isDark = !isDark">{{ show ? 'check_circle' : 'check_circle_outline' }}
+              </v-icon>
+            </v-btn>
+          </template>
+          <span>{{isDark ? 'White theme' : 'Dark theme'}}</span>
+        </v-tooltip>
+      </v-toolbar>
+
+      <v-data-table :headers="headers" :items="countries" class="elevation-1">
+
+        <template v-slot:items="props">
+          <td>{{ props.item._id }}</td>
+          <td><span 
+            v-for="(difference, key) in  props.item.allDiffs" 
+            :key="key">
+            <span v-if="key == 0">{{ difference }}</span>
+            <span v-else>, {{ difference }}</span>
+          </span></td>
+          <td>{{ props.item.count }}</td>
+          <td><span 
+            v-for="(longitude, key) in  props.item.longitude" 
+            :key="key"
+            >
+            <span v-if="key == 0">{{ longitude }}</span>
+            <span v-else>, {{ longitude }}</span>
+          </span></td>
+          <td><span 
+            v-for="(latitude, key) in  props.item.latitude" 
+            :key="key">
+            <span v-if="key == 0">{{ latitude }}</span>
+            <span v-else>, {{ latitude }}</span>
+          </span></td>
+        </template>
+
+      </v-data-table>
+    </v-app>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vuetify@1.x/dist/vuetify.js"></script>
+  <script src="/app.js"></script>
+</body>
+
+</html>
